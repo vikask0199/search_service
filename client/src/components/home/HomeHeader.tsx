@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import SearchResult from "../searchPage/SearchResult";
 
 const HomeHeader = () => {
   const [selectedOption, setSelectedOption] = useState<string>('');
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   const handleChange = (event: any) => {
     setSelectedOption(event.target.value);
