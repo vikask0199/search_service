@@ -47,8 +47,11 @@ const AdminSidebar = () => {
     return (
         <div className="h-screen flex flex-col">
             <div className="h-16 shadow-md">
-                <Link to="/" className="h-full items-center justify-center flex font-extrabold text-3xl text-blue-600 ">
+                <Link to="/" className="h-full hidden items-center justify-center md:flex font-extrabold text-3xl text-blue-600 ">
                     YOUR LOGO
+                </Link>
+                <Link to="/" className="h-full md:hidden items-center justify-center flex font-extrabold text-3xl text-blue-600 ">
+                    YL
                 </Link>
             </div>
 
