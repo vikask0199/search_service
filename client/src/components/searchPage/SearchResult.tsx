@@ -24,7 +24,7 @@ const SearchResult = () => {
     }
 
     return (
-        <div className="min-h-[91vh] flex items-center py-10 flex-col gap-5 bg-sky-100">
+        <div className="flex items-center py-10 flex-col gap-5">
             <div className="p-6 shadow-md flex flex-col gap-5 bg-white w-[95%] md:w-[70%]">
                 <div className="flex gap-2 border w-full">
                     <div className="md:w-[20%]">
