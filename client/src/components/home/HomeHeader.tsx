@@ -1,13 +1,20 @@
 import { useState } from "react";
 import homepage from "../../assets/homepage.jpg";
+import { useNavigate } from "react-router-dom";
 
 const HomeHeader = () => {
-
   const [selectedOption, setSelectedOption] = useState<string>('');
+  const navigate = useNavigate()
 
   const handleChange = (event: any) => {
     setSelectedOption(event.target.value);
   };
+
+
+  const handleGetSearchResult = async () => {
+    console.log(selectedOption);
+    navigate("/get-search-results")
+  }
 
   return (
     <>
@@ -24,7 +31,7 @@ const HomeHeader = () => {
               <option value="meat">Repairs & Services</option>
               <option value="meat">Real Estate</option>
             </select>
-            <button className="flex-grow px-10 h-10 bg-cyan-500 cursor-pointer text-white hover:bg-white hover:text-cyan-500 duration-300 border border-cyan-500">Search</button>
+            <button onClick={()=>handleGetSearchResult()} className="flex-grow px-10 h-10 bg-cyan-500 cursor-pointer text-white hover:bg-white hover:text-cyan-500 duration-300 border border-cyan-500">Search</button>
           </div>
         </div>
       </div>
