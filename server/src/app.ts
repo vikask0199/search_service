@@ -1,12 +1,11 @@
 import express, { Express, Request, Response, NextFunction } from "express";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
-import helmet from "helmet";
+// import helmet from "helmet";
 import mongoSanitize from "express-mongo-sanitize";
 import bodyParser from "body-parser";
 import cors from "cors";
-import router from "./routes";
-import { initBearerTokens } from "./utils/initializePartnerAPIAuth";
+// import router from "./routes";
 
 const app: Express = express();
 
@@ -28,7 +27,7 @@ app.use(express.json({ limit: "10mb" }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(helmet());
+// app.use(helmet());
 
 // if (process.env.NODE_ENV === 'development') {
 //     app.use(morgan('dev'));
@@ -52,10 +51,6 @@ app.use("/static", (req, res, next) => {
 app.use("/static", express.static("static"));
 // app.use(mongoSanitize());
 
-// app.use(xss())
-
-initBearerTokens();
-
-app.use(router);
+// app.use(router);
 
 export default app;

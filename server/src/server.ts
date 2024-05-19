@@ -1,10 +1,8 @@
 import dotenv from "dotenv";
 import http from "http";
 import mongoose from "mongoose";
-import appDataSource from "./postGresDataSource";
 import app from "./app";
 
-process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
 dotenv.config({ path: ".env" });
 
 const server = http.createServer(app);
@@ -18,20 +16,7 @@ const connectWithDatabase = async () => {
   console.log("Connecting with database...");
   let mongoConnection;
 
-  // PostgreSQL connection options
-
-  await appDataSource
-    .initialize()
-    .then(() => {
-      
-      console.log("PostGresql connection initialized");
-    })
-    .catch((error) => {
-      console.log("Connection PostGresql failed: " + error);
-    });
-
-  // mongo connection setup
-  const mongoURI = `mongodb://${process.env.MD_DB_USERNAME}:${process.env.MD_DB_PASSWORD}@192.168.29.154:27017/${process.env.MD_DB_NAME}?authSource=${process.env.MD_DB_NAME}`;
+  const mongoURI = `mongodb://vikas:Vikas%40123@localhost:27017/?authSource=search_service`;
 
   mongoConnection = await mongoose
     .connect(mongoURI)
@@ -46,7 +31,7 @@ const connectWithDatabase = async () => {
         error
       );
     });
-  return { appDataSource, mongoConnection };
+  return { mongoConnection };
 };
 let accessDB = connectWithDatabase();
 
