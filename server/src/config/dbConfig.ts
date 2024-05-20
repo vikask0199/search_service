@@ -5,7 +5,7 @@ dotenv.config();
 const config = {
     port: process.env.PORT || 5000,
     dbUri: process.env.DB_URI || '',
-    jwtSecret: process.env.JWT_SECRET || '',
+    jwtSecret: process.env.JWT_SECRET || 'nothing',
 };
 
 export default config;

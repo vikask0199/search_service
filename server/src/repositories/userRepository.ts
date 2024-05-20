@@ -1,6 +1,5 @@
 import { IUser } from "../interfaces/UserInterface";
-import { User } from "../models/User";
-
+import  User  from "../models/User"
 
 export const userRepository = {
     findByEmail: async (email: string): Promise<IUser | null> => {

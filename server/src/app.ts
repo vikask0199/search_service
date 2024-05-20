@@ -5,16 +5,14 @@ import rateLimit from "express-rate-limit";
 import mongoSanitize from "express-mongo-sanitize";
 import bodyParser from "body-parser";
 import cors from "cors";
-// import router from "./routes";
+import router from "./routes/routes";
+
 
 const app: Express = express();
 
 app.use(
   cors({
     origin: [
-      "http://localhost:5173",
-      "http://localhost:5173",
-      "http://localhost:5173",
       "http://localhost:5173",
       "http://192.168.29.74:5173",
     ],
@@ -51,6 +49,6 @@ app.use("/static", (req, res, next) => {
 app.use("/static", express.static("static"));
 // app.use(mongoSanitize());
 
-// app.use(router);
+app.use(router);
 
 export default app;

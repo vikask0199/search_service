@@ -1,8 +1,8 @@
-import { jwtSecret } from "../config/dbConfig";
-import { AuthServiceRespo, IUser } from "../interfaces/UserInterface";
-import { userRepository } from "../repositories/userRepository";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import config from "../config/dbConfig";
+import { AuthServiceRespo, IUser } from "../interfaces/UserInterface";
+import { userRepository } from "../repositories/userRepository";
 
 
 export const authService = {
@@ -23,11 +23,11 @@ export const authService = {
             throw new Error("Invalid Email")
         }
         const isMatched = await bcrypt.compare(password, user.password)
-        if(!isMatched){
+        if (!isMatched) {
             throw new Error("Invalid password")
         }
 
-        const token = jwt.sign({ id: user.id }, jwtSecret, {
+        const token = jwt.sign({ id: user.id }, config.jwtSecret, {
             expiresIn: "1h"
         })
         return { message: "Login Successful", token, user }

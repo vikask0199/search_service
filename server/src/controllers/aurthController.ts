@@ -10,7 +10,7 @@ export const signup = async (
 ): Promise<void> => {
     try {
         const response = await authService.signup(req.body);
-        sendResponse(res, 201, response.message, { user: response.user });
+        sendResponse(res, 201, response.message);
     } catch (error: any) {
         sendResponse(res, 400, error.message);
     }
@@ -23,7 +23,7 @@ export const login = async (
     try {
         const { email, password } = req.body;
         const response = await authService.login(email, password);
-        sendResponse(res, 200, response.message, { token: response.token, user: response.user });
+        sendResponse(res, 200, response.message, { token: response.token});
     } catch (error: any) {
         sendResponse(res, 400, error.message);
     }
