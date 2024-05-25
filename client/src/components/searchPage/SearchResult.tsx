@@ -6,7 +6,7 @@ import ReadCompleteAddress from "./ReadCompleteAddress";
 import StarRating from "./StarRating";
 
 const SearchResult = () => {
-    const ratings = [5, 5, 5, 2, 4, 5, 5, 4, 2, 1];
+    const ratings = [10,1,1,1];
 
     const handleOpenWhatsApp = () => {
         window.open("https://wa.me/918601021155", "_blank");
@@ -17,7 +17,7 @@ const SearchResult = () => {
     }
 
     const handleOpenDirection = () => {
-        const address = encodeURIComponent("mamura sector-66, Noida, India");
+        const address = encodeURIComponent("ithum tower sector-62, Noida, India");
         const locationUrl = `https://www.google.com/maps/dir/?api=1&destination=${address}`;
 
         window.open(locationUrl, "_blank");

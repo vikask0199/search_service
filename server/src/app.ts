@@ -40,13 +40,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/static", (req, res, next) => {
-  // Set the desired response headers
-  res.setHeader("Cross-Origin-Resource-Policy", "cross-origin"); // Example cache control header
-  // Call next() to pass control to the next middleware or route handler
-  next();
-});
-app.use("/static", express.static("static"));
 // app.use(mongoSanitize());
 
 app.use(router);

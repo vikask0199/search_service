@@ -8,7 +8,6 @@ dotenv.config({ path: ".env" });
 const server = http.createServer(app);
 
 process.on("uncaughtException", (error) => {
-  console.log(error);
   process.exit(1);
 });
 
@@ -41,7 +40,6 @@ server.listen(port, () => {
 });
 
 process.on("uncaughtException", (error) => {
-  console.log(error);
   process.exit(1);
 });
 
