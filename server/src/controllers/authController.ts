@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
+import { IUser } from '../interfaces/UserInterface';
 import { authService } from '../services/authService';
 import { sendResponse } from '../utils/sendResponse';
-import { IUser } from '../interfaces/UserInterface';
 
 
 export const signup = async (
@@ -23,7 +23,7 @@ export const login = async (
     try {
         const { email, password } = req.body;
         const response = await authService.login(email, password);
-        sendResponse(res, 200, response.message, { token: response.token});
+        res.status(200).json({ status: "success", message: "This is your JWT token", STATUS_CODES: 200, token: response })
     } catch (error: any) {
         sendResponse(res, 400, error.message);
     }

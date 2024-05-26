@@ -11,3 +11,8 @@ export interface ICategoryParams{
     categoryId: string
 }
 
+export interface QueryParams {
+    category: string;
+    city: string;
+    page?: string;
+}

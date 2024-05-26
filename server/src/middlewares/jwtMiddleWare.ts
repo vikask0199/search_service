@@ -1,22 +1,16 @@
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
+import { IJwtMiddleWare } from "../interfaces/JwtMiddleware";
 
-interface AuthMiddlewareParams {
-    email: string;
-    id: string;
-}
+const secretKey = "idontknowsearchserviceowerndetails";
 
 // generate jwt token
-export const authMiddleware = async (params: AuthMiddlewareParams) => {
-    const { email, id } = params;
+export const authMiddleware = async (userDetails: IJwtMiddleWare): Promise<string | null> => {
+    const { email, password } = userDetails;
     try {
-        if (email && id) {
-            const token = jwt.sign({ email, id }, `${process.env.JWT_SECRET_KEY}`, { expiresIn: process.env.TOKEN_EXPIRY_IN })
-            return token;
-        } else {
-            return null;
-        }
+        const token = jwt.sign({ email }, secretKey , { expiresIn: '1h' })
+        return token;
     } catch (error) {
-        return null;
+        throw new Error('Something went wrong');
     }
 }
 
@@ -24,17 +18,13 @@ export const authMiddleware = async (params: AuthMiddlewareParams) => {
 
 
 // Validate jwt token
-export const validateToken = async (token: any) => {
-    try {
-        const decodedToken: any = jwt.decode(token);
-        const isTokenExpired = isTokenExpire(decodedToken.exp);
-        if (isTokenExpired) {
-            return null;
-        } else {
-            return decodedToken;
-        }
-    } catch (error) {
-        return null;
+export const validateToken = async (token: string): Promise<boolean> => {
+    const decodedToken: any = jwt.verify(token, secretKey);
+    const isTokenExpired = isTokenExpire(decodedToken.exp);
+    if (isTokenExpired) {
+        return false;
+    } else {
+        return true;
     }
 };
 
@@ -42,6 +32,7 @@ export const validateToken = async (token: any) => {
 // Function to check if the token has expired
 const isTokenExpire = (exp: number): boolean => {
     const currentTimestamp = Math.floor(Date.now() / 1000);
+
     if (exp <= currentTimestamp) {
         return true;
     } else {

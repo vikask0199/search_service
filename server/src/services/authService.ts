@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import config from "../config/dbConfig";
 import { AuthServiceRespo, IUser } from "../interfaces/UserInterface";
+import { authMiddleware } from '../middlewares/jwtMiddleWare';
 import { userRepository } from "../repositories/userRepository";
 
 
@@ -17,7 +16,7 @@ export const authService = {
         return { message: "User created Successfully", user }
     },
 
-    login: async (email: string, password: string): Promise<AuthServiceRespo> => {
+    login: async (email: string, password: string): Promise<string | null> => {
         const user = await userRepository.findByEmail(email)
         if (!user) {
             throw new Error("Invalid Email")
@@ -27,9 +26,7 @@ export const authService = {
             throw new Error("Invalid password")
         }
 
-        const token = jwt.sign({ id: user.id }, config.jwtSecret, {
-            expiresIn: "1h"
-        })
-        return { message: "Login Successful", token, user }
+        const token = await authMiddleware({ email, password })
+        return token;
     }
 }

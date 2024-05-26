@@ -20,9 +20,9 @@ export const createCategory = async (
 }
 
 
-export const findCategoryByName = async (req: Request<{}, {}, {}, ICategoryParams>, res: Response): Promise<void> => {
+export const findCategoryByName = async (req: Request<{ categoryId: string }, {}, {}>, res: Response): Promise<void> => {
     try {
-        const { categoryId } = req.query
+        const { categoryId } = req.params
         if (!mongoose.Types.ObjectId.isValid(categoryId)) {
             return sendResponse(res, 400, 'Invalid categoryId format');
         }
@@ -48,9 +48,9 @@ export const getAllCategoryRec = async (req: Request<{}, {}, {}>, res: Response)
 
 
 
-export const deleteCategory = async (req: Request<{}, {}, {}, ICategoryParams>, res: Response): Promise<void> => {
+export const deleteCategory = async (req: Request<{ categoryId: string }, {}, {}>, res: Response): Promise<void> => {
     try {
-        const { categoryId } = req.query
+        const { categoryId } = req.params
         if (!mongoose.Types.ObjectId.isValid(categoryId)) {
             return sendResponse(res, 400, 'Invalid category ID');
         }
@@ -62,9 +62,9 @@ export const deleteCategory = async (req: Request<{}, {}, {}, ICategoryParams>, 
 }
 
 
-export const updateCategory = async (req: Request<{}, {}, { name: string }, ICategoryParams>, res: Response): Promise<void> => {
+export const updateCategory = async (req: Request<{categoryId: string}, {}, { name: string }>, res: Response): Promise<void> => {
     try {
-        const { categoryId } = req.query
+        const { categoryId } = req.params
         const categoryName = req.body.name
         if (!mongoose.Types.ObjectId.isValid(categoryId)) {
             return sendResponse(res, 400, 'Invalid category ID');

@@ -1,0 +1,17 @@
+{
+    "name": "Sample Store",
+    "address": {
+        "sector": "Sample Sector",
+        "street": "Sample Street",
+        "city": "Sample City",
+        "state": "Sample State",
+        "zip": "12345"
+    },
+    "phone": "123-456-7890",
+    "email": "FDfghle@stngdfdoVCVre.com",
+    "website": "http://samplestore.com",
+    "whatsApp": "123-456-7890",
+    "logo": "http://samplestore.com/logo.jpg",
+    "rating": [10,8,5,8,4,3,8],
+    "category": "6651cecabe3a34edef295c5a"
+}

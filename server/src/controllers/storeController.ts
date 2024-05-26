@@ -1,9 +1,7 @@
-import { Response, Request } from "express";
+import { Request, Response } from "express";
 import { IStore } from "../interfaces/StoreInterfaces";
 import { storeService } from "../services/storeService";
 import { sendResponse } from "../utils/sendResponse";
-import mongoose from "mongoose";
-
 
 
 export const createStore = async (
@@ -69,7 +67,7 @@ export const updateStoreByEmailId = async (
         const { email } = req.params
         const updateData = req.body
         const store = await storeService.updateStoreByEmailId(email, updateData)
-        res.status(200).json({ status: "success", STATUS_CODES: 200, data: store, message: "Store updated successfully"  })
+        res.status(200).json({ status: "success", STATUS_CODES: 200, data: store, message: "Store updated successfully" })
     } catch (error: any) {
         sendResponse(res, 400, error.message);
     }
