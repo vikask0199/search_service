@@ -4,8 +4,8 @@ import { checkAuthorizeOrNot } from '../middlewares/checkAuthorizeOrNot';
 
 const router = express.Router();
 
-// router.post('/signup', checkAuthorizeOrNot, signup);
-router.post('/login', login);
+// router.post('/signup', signup);
+router.post('/user/api/v1/login', login);
 
 
 export default router

@@ -4,12 +4,11 @@ export interface IStore {
     _id?: string;
     name: string;
     address: {
-        sector: string;
-        street: string;
         city: string;
         state: string;
         zip: string;
     };
+    completeAddress: string;
     phone: string;
     email: string;
     website?: string;

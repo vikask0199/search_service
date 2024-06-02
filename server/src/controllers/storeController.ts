@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { IStore } from "../interfaces/StoreInterfaces";
 import { storeService } from "../services/storeService";
 import { sendResponse } from "../utils/sendResponse";
+import mongoose from "mongoose";
+import { categoryService } from "../services/categoryService";
 
 
 export const createStore = async (
@@ -10,6 +12,14 @@ export const createStore = async (
 ): Promise<void> => {
     try {
         const storeData = req.body
+        const category = req?.body?.category
+        if (!mongoose.Types.ObjectId.isValid(category)) {
+            return sendResponse(res, 400, 'Invalid category');
+        }
+        const categoryDetails = await categoryService.findCategoryDetails(category)
+        if(!categoryDetails){
+            return sendResponse(res, 400, 'Please enter a valid category id');
+        }
         const store = await storeService.createStore(storeData)
         res.status(201).json({ status: "success", STATUS_CODES: 201, data: store })
     } catch (error: any) {
@@ -22,10 +32,15 @@ export const getStoresByCategoryAndLocation = async (
     res: Response
 ): Promise<void> => {
     try {
-        const { category, city, page } = req.query
+        const { category, city, page } = req.query;
         const pageNumber = page ? Number(page) : 1;
-        const stores = await storeService.getStoreByCategoryAndLocation(category, city, pageNumber)
-        res.status(200).json({ status: "success", STATUS_CODES: 200, data: stores })
+
+        if (!mongoose.Types.ObjectId.isValid(category)) {
+            throw new Error('Invalid category ID');
+        }
+
+        const stores = await storeService.getStoreByCategoryAndLocation(category, city, pageNumber);
+        res.status(200).json({ status: "success", STATUS_CODES: 200, data: stores });
     } catch (error: any) {
         sendResponse(res, 400, error.message);
     }

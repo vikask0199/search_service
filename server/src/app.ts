@@ -13,7 +13,6 @@ import { sendResponse } from "./utils/sendResponse";
 
 const app: Express = express();
 
-// Middleware configurations
 app.use(
   cors({
     origin: [

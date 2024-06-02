@@ -12,7 +12,6 @@ process.on("uncaughtException", (error) => {
 });
 
 const connectWithDatabase = async () => {
-  console.log("Connecting with database...");
   let mongoConnection;
 
   const mongoURI = `mongodb://vikas:Vikas%40123@localhost:27017/search_service`;
@@ -24,9 +23,6 @@ const connectWithDatabase = async () => {
     })
     .catch((error) => {
       console.log(
-        "Connection Mongo failed for string: ",
-        mongoURI,
-        ". error: ",
         error
       );
     });

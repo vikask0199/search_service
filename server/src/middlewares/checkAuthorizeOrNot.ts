@@ -18,6 +18,6 @@ export const checkAuthorizeOrNot = async (req: Request, res: Response, next: Nex
             throw new Error("Please login")
         }
     } catch (error: any) {
-        sendResponse(res, 400, error.message)
+        sendResponse(res, 501, error.message)
     }
 }

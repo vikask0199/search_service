@@ -14,14 +14,6 @@ const storeSchema = new mongoose.Schema<IStore>(
             unique: true,
         },
         address: {
-            sector: {
-                type: String,
-                required: true,
-            },
-            street: {
-                type: String,
-                required: true,
-            },
             city: {
                 type: String,
                 required: true,
@@ -34,6 +26,10 @@ const storeSchema = new mongoose.Schema<IStore>(
                 type: String,
                 required: true,
             },
+        },
+        completeAddress:{
+            type:String,
+            required: true
         },
         phone: {
             type: String,

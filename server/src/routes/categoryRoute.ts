@@ -6,9 +6,9 @@ import { checkAuthorizeOrNot } from "../middlewares/checkAuthorizeOrNot"
 const router = express.Router()
 
 router.post("/createCategory",checkAuthorizeOrNot, createCategory)
+router.get("/get-all-category", getAllCategoryRec)
 router.get("/:categoryId", checkAuthorizeOrNot, findCategoryByName)
 router.delete("/:categoryId", checkAuthorizeOrNot, deleteCategory)
 router.patch("/:categoryId", checkAuthorizeOrNot, updateCategory)
-router.get("/get-all-category", getAllCategoryRec)
 
 export default router
