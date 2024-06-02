@@ -1,10 +1,8 @@
-import UploadImage from "./UploadImage";
 
 const DeleteStore = () => {
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        console.log("first")
     }
 
 
@@ -107,12 +105,6 @@ const DeleteStore = () => {
                             </label>
                             <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="8" />
                             <p className="text-red-500 text-xs italic">Please fill out this field.</p>
-                        </div>
-                        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
-                                Upload an Image
-                            </label>
-                            <UploadImage />
                         </div>
                     </div>
                     <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded w-full my-2">

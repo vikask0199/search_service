@@ -1,9 +1,16 @@
+import React from 'react';
+
 interface RatingProps {
-  ratings: number[];
+  ratings: number[] | number; // Allow for single number or array of numbers
 }
 
 const StarRating: React.FC<RatingProps> = ({ ratings }) => {
-  const overallRating = ratings.reduce((acc, curr) => acc + curr, 0) / ratings.length;
+  let overallRating;
+  if (Array.isArray(ratings)) {
+    overallRating = ratings.reduce((acc, curr) => acc + curr, 0) / ratings.length;
+  } else {
+    overallRating = ratings; // If single number, assign directly
+  }
 
   const renderStars = (rating: number) => {
     const filledStars = Math.round(rating);
@@ -30,7 +37,7 @@ const StarRating: React.FC<RatingProps> = ({ ratings }) => {
         <span className="mr-2 text-lg font-semibold">{overallRating.toFixed(1)}</span>
         {renderStars(overallRating)}
       </div>
-      <p>Rating out of {ratings.length} ratings</p>
+      {Array.isArray(ratings) && <p>Rating out of {ratings.length} ratings</p>}
     </div>
   );
 };

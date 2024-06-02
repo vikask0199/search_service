@@ -11,6 +11,9 @@ import AllStore from "./components/admin/AllStore"
 import DeleteStore from "./components/admin/DeleteStore"
 import ClearDatabasePage from "./components/admin/ClearDatabasePage"
 import ProfilePage from "./components/admin/ProfilePage"
+import Category from "./components/admin/Category"
+import LoginPage from "./components/auth/LoginPage"
+import RequireAuth from "./requireAuth/RequireAuth"
 
 
 function App() {
@@ -23,15 +26,19 @@ function App() {
           <Route index element={<HomeHeader />} />
           <Route path="get-search-results" index element={<SearchResult />} />
         </Route>
-        <Route path="/admin" element={<AdminOutlet />}>
-          <Route index element={<AdminHome />} />
-          <Route path="add-new-details/:id" element={<AddNewDetails />} />
-          <Route path="update-details/:id" element={<UpdateDetails />} />
-          <Route path="all-store/:id" element={<AllStore />} />
-          <Route path="delete-store/:id" element={<DeleteStore />} />
-          <Route path="clear-database/:id" element={<ClearDatabasePage />} />
-          <Route path="profile/:id" element={<ProfilePage />} />
+        <Route element={<RequireAuth />}>
+          <Route path="/admin" element={<AdminOutlet />}>
+            <Route index element={<AdminHome />} />
+            <Route path="add-new-details/:id" element={<AddNewDetails />} />
+            <Route path="update-details/:id" element={<UpdateDetails />} />
+            <Route path="all-store/:id" element={<AllStore />} />
+            <Route path="delete-store/:id" element={<DeleteStore />} />
+            <Route path="clear-database/:id" element={<ClearDatabasePage />} />
+            <Route path="profile/:id" element={<ProfilePage />} />
+            <Route path="category/:id" element={<Category />} />
+          </Route>
         </Route>
+        <Route path="/please-login" element={<LoginPage />} />
         <Route path="*" element={<NotFound404 />} />
       </Routes>
     </>
