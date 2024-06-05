@@ -82,14 +82,15 @@ app.post("/upload-image", upload.single("image"), async (req: Request, res: Resp
   }
 });
 
-// app.get("/get-image", async (req: Request, res: Response) => {
-//   try {
-//     const data = await ImageDetails.find({});
-//     res.send({ status: "ok", data: data });
-//   } catch (error: any) {
-//     sendResponse(res, 400, error.message);
-//   }
-// });
+app.get("/get-image", async (req: Request, res: Response) => {
+  res.send("hello working");
+  // try {
+  //   const data = await ImageDetails.find({});
+  //   res.send({ status: "ok", data: data });
+  // } catch (error: any) {
+  //   sendResponse(res, 400, error.message);
+  // }
+});
 
 // https://github.com/the-debug-arena/multer-image-upload/blob/main/backend/backend.js
 
