@@ -6,6 +6,7 @@ import { logout } from '../../features/authSlice/authSlice';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: `https://search-service.onrender.com/`,
+  // baseUrl: `http://localhost:5000/`,
   credentials: 'include',
   prepareHeaders: (headers) => {
     const token = localStorage.getItem('token');;

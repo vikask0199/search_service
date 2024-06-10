@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import UploadImage from "./UploadImage"
 import { useGetAllCategoryQuery } from "../../features/categorySlice/categorySlice";
 import { useCreateStoreMutation } from "../../features/storeSlice/storeSlice";
+import { toast } from "react-toastify";
 
 const AddNewDetails = () => {
     const getAllCategory = useGetAllCategoryQuery(undefined)
     const [postStore] = useCreateStoreMutation()
     const [ratingInput, setRatingInput] = useState('');
     const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     const [formData, setFormData] = useState({
         name: '',
@@ -48,12 +50,12 @@ const AddNewDetails = () => {
                 [parent]: {
                     ...prevState[parent],
                     [child]: child === 'city' ? value.toLowerCase() : value,
-                },
+                }
             }));
         } else {
             setFormData((prevState) => ({
                 ...prevState,
-                [name]: value,
+                [name]: name === 'email' ? value.toLowerCase() : value,
             }));
         }
     };
@@ -75,17 +77,21 @@ const AddNewDetails = () => {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
+        setIsSubmitting(true)
         if (formData.name && formData.address.city && formData.address.state && formData.address.zip && formData.completeAddress && formData.category && formData.email && formData.locationUrl && formData.phone && formData.logo && formData.rating.length > 0 && formData.whatsApp) {
             const response = await postStore({
                 ...formData
             })
             if (response?.data?.status === "success") {
-                window.alert("Store added successfully")
+                setIsSubmitting(false)
+                toast.success("Store added successfully")
             } else {
-                window.alert(response?.error?.data?.message)
+                setIsSubmitting(false)
+                toast.error(response?.error?.data?.message)
             }
         } else {
-            window.alert("Please fill all fields")
+            toast.info("Please fill all fields")
+            setIsSubmitting(false)
         }
     };
 
@@ -229,7 +235,9 @@ const AddNewDetails = () => {
                         </div>
                     </div>
                     <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded w-full my-2">
-                        Submit
+                        {
+                            isSubmitting ? "Wait . . ." : "Submit"
+                        }
                     </button>
                 </form>
             </div>

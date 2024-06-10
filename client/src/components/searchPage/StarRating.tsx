@@ -1,20 +1,25 @@
 import React from 'react';
 
 interface RatingProps {
-  ratings: number[] | number; // Allow for single number or array of numbers
+  ratings: number[] | number;
 }
 
 const StarRating: React.FC<RatingProps> = ({ ratings }) => {
-  let overallRating;
+  let overallRating: number;
+
   if (Array.isArray(ratings)) {
     overallRating = ratings.reduce((acc, curr) => acc + curr, 0) / ratings.length;
   } else {
-    overallRating = ratings; // If single number, assign directly
+    overallRating = ratings;
   }
+
+  // Ensure the rating is within 0-5 range
+  overallRating = Math.min(Math.max(overallRating, 0), 5);
 
   const renderStars = (rating: number) => {
     const filledStars = Math.round(rating);
     const emptyStars = 5 - filledStars;
+
     return (
       <div className="flex">
         {[...Array(filledStars)].map((_, index) => (

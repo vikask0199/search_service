@@ -1,10 +1,11 @@
 import { Route, Routes } from "react-router-dom"
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import AddNewDetails from "./components/admin/AddNewDetails"
 import AdminHome from "./components/admin/AdminHome"
 import UpdateDetails from "./components/admin/UpdateDetails"
 import NotFound404 from "./components/error/NotFound404"
 import HomeHeader from "./components/home/HomeHeader"
-import SearchResult from "./components/searchPage/SearchResult"
 import AdminOutlet from "./outlets/AdminOutlet"
 import PublicOutlet from "./outlets/PublicOutlet"
 import AllStore from "./components/admin/AllStore"
@@ -18,13 +19,11 @@ import RequireAuth from "./requireAuth/RequireAuth"
 
 function App() {
 
-
   return (
     <>
       <Routes>
         <Route path="/" element={<PublicOutlet />}>
           <Route index element={<HomeHeader />} />
-          <Route path="get-search-results" index element={<SearchResult />} />
         </Route>
         <Route element={<RequireAuth />}>
           <Route path="/admin" element={<AdminOutlet />}>
@@ -41,6 +40,18 @@ function App() {
         <Route path="/please-login" element={<LoginPage />} />
         <Route path="*" element={<NotFound404 />} />
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   )
 }

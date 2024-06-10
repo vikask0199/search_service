@@ -12,7 +12,7 @@ import { IoLogoWhatsapp } from 'react-icons/io';
 interface Store {
   logo: string;
   name: string;
-  rating: number;
+  rating: number[] | number;
   completeAddress: string;
   phone: string;
   email: string;
@@ -27,8 +27,8 @@ const HomeHeader = () => {
   const [stores, setStores] = useState<Store[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  // const [totalRecords, setTotalRecords] = useState(0);
   const [getStoresByCityAndCategory] = useLazyGetStoreByCityAndCategoryQuery();
+  const [isLoadingStore, setIsLoadingStore] = useState(false)
 
   const handleCategoryChange = (e: any) => {
     setSelectedCategory(e.target.value);
@@ -40,20 +40,33 @@ const HomeHeader = () => {
   };
 
   const handleGetSearchResult = async () => {
+    setIsLoadingStore(true)
     if (!selectedCategory || !city) return;
     setPage(1);
-    const result = await getStoresByCityAndCategory({ category: selectedCategory, city, page: 1 }).unwrap();
-    setStores(result.data.stores);
-    setTotalPages(result.data.totalPages);
-    // setTotalRecords(result.data.totalRecords);
+    try {
+      const result = await getStoresByCityAndCategory({ category: selectedCategory, city, page: 1 }).unwrap();
+      console.log(result);
+      setStores(result.data.stores || []);
+      setTotalPages(result.data.totalPages || 1);
+    } catch (error) {
+      console.error("Error fetching stores:", error);
+      setStores([]);
+      setTotalPages(1);
+      setIsLoadingStore(false)
+    }
+    setIsLoadingStore(false)
   };
 
   const handleLoadMore = async () => {
     const nextPage = page + 1;
     if (nextPage > totalPages) return;
-    const result = await getStoresByCityAndCategory({ category: selectedCategory, city, page: nextPage }).unwrap();
-    setStores((prevStores) => [...prevStores, ...result.data.stores]);
-    setPage(nextPage);
+    try {
+      const result = await getStoresByCityAndCategory({ category: selectedCategory, city, page: nextPage }).unwrap();
+      setStores((prevStores) => [...prevStores, ...(result.data.stores || [])]);
+      setPage(nextPage);
+    } catch (error) {
+      console.error("Error loading more stores:", error);
+    }
   };
 
   const handleOpenWhatsApp = (wNumber: string) => {
@@ -104,7 +117,9 @@ const HomeHeader = () => {
             onClick={handleGetSearchResult}
             className="flex-grow px-10 h-10 bg-cyan-500 cursor-pointer text-white hover:bg-white hover:text-cyan-500 duration-300 border border-cyan-500"
           >
-            Search
+            {
+              isLoadingStore ? "Searching . . .":"Search"
+            }
           </button>
         </div>
       </div>
@@ -138,7 +153,7 @@ const HomeHeader = () => {
               </div>
             ))
           ) : (
-            <div>No records present please add valid city !</div>
+            <div>No records present please add valid city!</div>
           )
         }
         {stores.length > 0 && page < totalPages && (
@@ -150,7 +165,7 @@ const HomeHeader = () => {
           </button>
         )}
       </div>
-    </div >
+    </div>
   );
 };
 

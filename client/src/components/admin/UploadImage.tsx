@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useUploadImageMutation } from '../../features/storeSlice/storeSlice';
+import { toast } from 'react-toastify';
 
 interface UploadImageProps {
     onImageUrlChange: (imageUrl: string) => void;
@@ -10,6 +11,7 @@ const UploadImage: React.FC<UploadImageProps> = ({ onImageUrlChange }) => {
     const [previewImage, setPreviewImage] = useState<string | ArrayBuffer | null>(null);
     const [uploadImage, { isLoading, isError, isSuccess }] = useUploadImageMutation();
     const [imageUrls, setImageUrls] = useState("");
+    const [isUploading, setIsUploading] = useState(false)
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -30,8 +32,9 @@ const UploadImage: React.FC<UploadImageProps> = ({ onImageUrlChange }) => {
     };
 
     const handleSubmit = async () => {
+        setIsUploading(true)
         if (!selectedImage) {
-            alert('Please select an image to upload.');
+            toast.info('Please select an image to upload.');
             return;
         }
 
@@ -42,8 +45,10 @@ const UploadImage: React.FC<UploadImageProps> = ({ onImageUrlChange }) => {
             const result = await uploadImage(formData).unwrap();
             setImageUrls(result?.imageUrl);
             onImageUrlChange(result?.imageUrl);
-        } catch (error) {
-            console.error('Error uploading image:', error);
+            setIsUploading(false)
+        } catch (error:any) {
+            setIsUploading(false)
+            toast.error(error.data.message)
         }
     };
 
@@ -67,7 +72,9 @@ const UploadImage: React.FC<UploadImageProps> = ({ onImageUrlChange }) => {
                     </button>
                 )}
                 <button type="submit" onClick={handleSubmit} disabled={isLoading} className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded mt-4">
-                    Upload Image
+                    {
+                        isUploading? "Uploading . . .":"Upload Image"
+                    }
                 </button>
             </div>
             {isError && <p className="text-red-500 mt-4">U can not submit the form before uploading the image</p>}
