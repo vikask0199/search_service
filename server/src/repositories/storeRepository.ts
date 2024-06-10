@@ -40,16 +40,20 @@ export const storeRepository = {
     },
 
     getStoreByEmailId: async (email: string): Promise<IStore | null> => {
-        return Store.findOne({email}).populate('category').exec();
+        return Store.findOne({ email }).populate('category').exec();
     },
 
     updateStoreByEmailId: async (email: string, updateData: Partial<IStore>): Promise<IStore | null> => {
-        const updatedRecords = await Store.findOneAndUpdate({email}, updateData, { new: true }).populate('category')
+        const updatedRecords = await Store.findOneAndUpdate({ email }, updateData, { new: true }).populate('category')
         return updatedRecords;
     },
 
     deleteStoreByEmailId: async (email: string): Promise<IStore | null> => {
-        const deletedRecord = Store.findOneAndDelete({email}).exec()
+        const deletedRecord = Store.findOneAndDelete({ email }).exec()
         return deletedRecord;
+    },
+
+    getStreamData: async (): Promise<IStore[]> => {
+        return Store.find().sort({createdAt: -1}).exec()
     }
 }

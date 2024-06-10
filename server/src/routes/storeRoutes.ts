@@ -1,5 +1,5 @@
 import express from "express";
-import { createStore, deleteStoreByEmailId, getAllStores, getStoreByEmailId, getStoresByCategoryAndLocation, updateStoreByEmailId } from "../controllers/storeController";
+import { createStore, deleteStoreByEmailId, getAllStores, getStoreByEmailId, getStoresByCategoryAndLocation, getStramData, updateStoreByEmailId } from "../controllers/storeController";
 import { checkAuthorizeOrNot } from "../middlewares/checkAuthorizeOrNot";
 
 
@@ -11,6 +11,7 @@ router.get('/stores/all', checkAuthorizeOrNot, getAllStores);
 router.get('/stores/:email', checkAuthorizeOrNot, getStoreByEmailId);
 router.patch('/stores/:email', checkAuthorizeOrNot, updateStoreByEmailId);
 router.delete('/stores/:email', checkAuthorizeOrNot, deleteStoreByEmailId);
+router.get('/stream-stores', getStramData);
 
 
 export default router;

@@ -55,5 +55,9 @@ export const storeService = {
             throw new Error("Store not found")
         }
         return storeRepository.deleteStoreByEmailId(email)
+    },
+
+    stremStoreService: async(): Promise<IStore[]> => {
+        return storeRepository.getStreamData()
     }
 }

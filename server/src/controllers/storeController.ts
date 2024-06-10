@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
+import mongoose from "mongoose";
 import { IStore } from "../interfaces/StoreInterfaces";
+import { categoryService } from "../services/categoryService";
 import { storeService } from "../services/storeService";
 import { sendResponse } from "../utils/sendResponse";
-import mongoose from "mongoose";
-import { categoryService } from "../services/categoryService";
 
 
 export const createStore = async (
@@ -17,7 +17,7 @@ export const createStore = async (
             return sendResponse(res, 400, 'Invalid category');
         }
         const categoryDetails = await categoryService.findCategoryDetails(category)
-        if(!categoryDetails){
+        if (!categoryDetails) {
             return sendResponse(res, 400, 'Please enter a valid category id');
         }
         const store = await storeService.createStore(storeData)
@@ -96,6 +96,40 @@ export const deleteStoreByEmailId = async (
         const { email } = req.params
         const deletedRecords = await storeService.deleteStoreByEmailId(email)
         res.status(200).json({ status: "success", STATUS_CODES: 200, data: deletedRecords, message: "Store deleted successfully" })
+    } catch (error: any) {
+        sendResponse(res, 400, error.message);
+    }
+}
+
+
+export const getStramData = async (req: Request, res: Response): Promise<void> => {
+    try {
+        res.setHeader('Content-Type', 'text/event-stream');
+        res.setHeader('Cache-Control', 'no-cache');
+        res.setHeader('Connection', 'keep-alive');
+
+        const sendData = (data: any) => {
+            res.write(`data: ${JSON.stringify(data)}\n\n`);
+        };
+
+        // Send initial data in chunks
+        const initialStores = await storeService.stremStoreService();
+        sendData(initialStores); 
+
+        // Set up change stream for new data
+        const changeStream = mongoose.connection.collection('stores').watch();
+
+        changeStream.on('change', async (change) => {
+            if (change.operationType === 'insert') {
+                const newStore = change.fullDocument;
+                sendData([newStore]);
+            }
+        });
+
+        req.on('close', () => {
+            changeStream.close();
+            res.end();
+        });
     } catch (error: any) {
         sendResponse(res, 400, error.message);
     }
