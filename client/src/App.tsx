@@ -8,7 +8,7 @@ import NotFound404 from "./components/error/NotFound404"
 import HomeHeader from "./components/home/HomeHeader"
 import AdminOutlet from "./outlets/AdminOutlet"
 import PublicOutlet from "./outlets/PublicOutlet"
-import AllStore from "./components/admin/AllStore"
+// import AllStore from "./components/admin/AllStore"
 import DeleteStore from "./components/admin/DeleteStore"
 import ClearDatabasePage from "./components/admin/ClearDatabasePage"
 import ProfilePage from "./components/admin/ProfilePage"
@@ -30,7 +30,7 @@ function App() {
             <Route index element={<AdminHome />} />
             <Route path="add-new-details/:id" element={<AddNewDetails />} />
             <Route path="update-details/:id" element={<UpdateDetails />} />
-            <Route path="all-store/:id" element={<AllStore />} />
+            {/* <Route path="all-store/:id" element={<AllStore />} /> */}
             <Route path="delete-store/:id" element={<DeleteStore />} />
             <Route path="clear-database/:id" element={<ClearDatabasePage />} />
             <Route path="profile/:id" element={<ProfilePage />} />

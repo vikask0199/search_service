@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useGetAllCategoryQuery } from '../../features/categorySlice/categorySlice';
 import { useLazyGetStoreByCityAndCategoryQuery } from '../../features/storeSlice/storeSlice';
 import ReadCompleteAddress from '../searchPage/ReadCompleteAddress';
@@ -7,6 +7,7 @@ import { MdSubdirectoryArrowRight } from 'react-icons/md';
 import { IoCall } from 'react-icons/io5';
 import { SiGmail } from 'react-icons/si';
 import { IoLogoWhatsapp } from 'react-icons/io';
+import { toast } from 'react-toastify';
 
 // Define the Store type
 interface Store {
@@ -18,6 +19,7 @@ interface Store {
   email: string;
   whatsApp: string;
   locationUrl: string;
+  createdAt: string;
 }
 
 const HomeHeader = () => {
@@ -45,11 +47,9 @@ const HomeHeader = () => {
     setPage(1);
     try {
       const result = await getStoresByCityAndCategory({ category: selectedCategory, city, page: 1 }).unwrap();
-      console.log(result);
       setStores(result.data.stores || []);
       setTotalPages(result.data.totalPages || 1);
     } catch (error) {
-      console.error("Error fetching stores:", error);
       setStores([]);
       setTotalPages(1);
       setIsLoadingStore(false)
@@ -65,7 +65,7 @@ const HomeHeader = () => {
       setStores((prevStores) => [...prevStores, ...(result.data.stores || [])]);
       setPage(nextPage);
     } catch (error) {
-      console.error("Error loading more stores:", error);
+      toast.info("Error loading more stores")
     }
   };
 
@@ -89,6 +89,31 @@ const HomeHeader = () => {
     const locationUrl = `https://www.google.com/maps/dir/?api=1&destination=${address}`;
     window.open(locationUrl, "_blank");
   };
+
+
+  useEffect(() => {
+    const eventSource = new EventSource('https://search-service.onrender.com/store/stream-stores');
+
+    eventSource.onmessage = (event) => {
+        const newStores: Store[] = JSON.parse(event.data);
+        setStores((prevStores) => {
+            const updatedStores = [...newStores, ...prevStores];
+            return updatedStores.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        });
+    };
+
+    eventSource.onerror = () => {
+        toast.info("EventSource failed during load the data");
+        eventSource.close();
+    };
+
+    // Cleanup on component unmount
+    return () => {
+        eventSource.close();
+    };
+}, []);
+
+
 
   return (
     <div className="flex items-center justify-center flex-col ">
@@ -118,7 +143,7 @@ const HomeHeader = () => {
             className="flex-grow px-10 h-10 bg-cyan-500 cursor-pointer text-white hover:bg-white hover:text-cyan-500 duration-300 border border-cyan-500"
           >
             {
-              isLoadingStore ? "Searching . . .":"Search"
+              isLoadingStore ? "Searching . . ." : "Search"
             }
           </button>
         </div>
@@ -144,10 +169,10 @@ const HomeHeader = () => {
                     </div>
                   </div>
                   <div className="flex justify-between gap-2 flex-wrap">
-                    <button className="py-1 rounded-sm cursor-pointer px-3 bg-blue-700 text-white hover:text-blue-700 hover:bg-white duration-300 border border-blue-700" onClick={() => handleOpenDirection(store.completeAddress)}><span className="flex items-center gap-1 "><MdSubdirectoryArrowRight className="text-xl" /> Direction</span></button>
-                    <button className="py-1 rounded-sm cursor-pointer px-3 bg-red-700 text-white hover:text-red-700 hover:bg-white duration-300 border border-red-700" onClick={() => handleMakeCall(store.phone)}><span className="flex items-center gap-1 "><IoCall className="text-xl" /> Call Now</span></button>
-                    <button className="py-1 rounded-sm cursor-pointer px-3 bg-violet-700 text-white hover:text-violet-700 hover:bg-white duration-300 border border-violet-700" onClick={() => handleSendEmail(store.email)}><span className="flex items-center gap-1 "><SiGmail className="text-xl" /> Send Enquiry</span></button>
-                    <button className="py-1 rounded-sm cursor-pointer px-3 bg-green-700 text-white hover:text-green-700 hover:bg-white duration-300 border border-green-700" onClick={() => handleOpenWhatsApp(store.whatsApp)}><span className="flex items-center gap-1 "><IoLogoWhatsapp className="text-xl" /> Chat</span></button>
+                    <button className="py-1 rounded-sm cursor-pointer w-36 flex items-center justify-center bg-blue-700 text-white hover:text-blue-700 hover:bg-white duration-300 border border-blue-700" onClick={() => handleOpenDirection(store.completeAddress)}><span className="flex items-center gap-1  "><MdSubdirectoryArrowRight className="text-xl" /> Direction</span></button>
+                    <button className="py-1 rounded-sm cursor-pointer w-36 flex items-center justify-center bg-red-700 text-white hover:text-red-700 hover:bg-white duration-300 border border-red-700" onClick={() => handleMakeCall(store.phone)}><span className="flex items-center gap-1  "><IoCall className="text-xl" /> Call Now</span></button>
+                    <button className="py-1 rounded-sm cursor-pointer w-36 flex items-center justify-center bg-violet-700 text-white hover:text-violet-700 hover:bg-white duration-300 border border-violet-700" onClick={() => handleSendEmail(store.email)}><span className="flex items-center gap-1  "><SiGmail className="text-xl" /> Send Enquiry</span></button>
+                    <button className="py-1 rounded-sm cursor-pointer w-36 flex items-center justify-center bg-green-700 text-white hover:text-green-700 hover:bg-white duration-300 border border-green-700" onClick={() => handleOpenWhatsApp(store.whatsApp)}><span className="flex items-center gap-1  "><IoLogoWhatsapp className="text-xl" /> Chat</span></button>
                   </div>
                 </div>
               </div>

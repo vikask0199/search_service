@@ -25,9 +25,9 @@ const AdminSidebar = () => {
         navigate(`/admin/update-details/2`);
     };
 
-    const handleOpenAllAddress = () => {
-        navigate(`/admin/all-store/3`);
-    };
+    // const handleOpenAllAddress = () => {
+    //     navigate(`/admin/all-store/3`);
+    // };
 
     const handleDeleteStore = () => {
         navigate(`/admin/delete-store/4`);
@@ -65,7 +65,7 @@ const AdminSidebar = () => {
                     <button onClick={() => handleOpenCategory()} className={`flex w-full items-center gap-2 py-2 px-2 shadow-md text-green-600 hover:bg-gray-100 duration-300 ${Number(id) === 8 ? 'bg-gray-200' : ''}`}><IoMdAdd /><span className="hidden md:block">Categories</span></button>
                     <button onClick={() => handleAddNewAddress()} className={`flex w-full items-center gap-2 py-2 px-2 shadow-md text-green-600 hover:bg-gray-100 duration-300 ${Number(id) === 1 ? 'bg-gray-200' : ''}`}><IoMdAdd /><span className="hidden md:block">Add Details</span></button>
                     <button onClick={() => handleOpenUpdate()} className={`flex w-full items-center gap-2 py-2 px-2 shadow-md text-violet-600 hover:bg-gray-100 duration-300 ${Number(id) === 2 ? 'bg-gray-200' : ''}`}><MdEdit /><span className="hidden md:block">Update Details</span></button>
-                    <button onClick={() => handleOpenAllAddress()} className={`flex w-full items-center gap-2 py-2 px-2 shadow-md text-yellow-600 hover:bg-gray-100 duration-300 ${Number(id) === 3 ? 'bg-gray-200' : ''}`}><FaListUl /><span className="hidden md:block">All Details</span></button>
+                    {/* <button onClick={() => handleOpenAllAddress()} className={`flex w-full items-center gap-2 py-2 px-2 shadow-md text-yellow-600 hover:bg-gray-100 duration-300 ${Number(id) === 3 ? 'bg-gray-200' : ''}`}><FaListUl /><span className="hidden md:block">All Details</span></button> */}
                     <button onClick={() => handleDeleteStore()} className={`flex w-full items-center gap-2 py-2 px-2 shadow-md text-orange-600 hover:bg-gray-100 duration-300 ${Number(id) === 4 ? 'bg-gray-200' : ''}`}><MdOutlineDeleteOutline /><span className="hidden md:block">Delete Store</span></button>
                 </div>
                 <div className="flex flex-col gap-4 items-center">
