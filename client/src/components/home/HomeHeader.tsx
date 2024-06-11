@@ -95,10 +95,7 @@ const HomeHeader = () => {
     const eventSource = new EventSource('https://search-service.onrender.com/store/stream-stores');
 
     eventSource.onmessage = (event) => {
-        const newStores: Store[] = JSON.parse(event.data).map((store:any) => {({
-            ...store,
-            createdAt: store.createdAt || new Date().toISOString()
-        })});
+        const newStores: Store[] = JSON.parse(event.data);
         setStores((prevStores) => {
             const updatedStores = [...newStores, ...prevStores];
             return updatedStores.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
@@ -115,29 +112,6 @@ const HomeHeader = () => {
         eventSource.close();
     };
 }, []);
-
-
-//   useEffect(() => {
-//     const eventSource = new EventSource('');
-
-//     eventSource.onmessage = (event) => {
-//         const newStores: Store[] = JSON.parse(event.data);
-//         setStores((prevStores) => {
-//             const updatedStores = [...newStores, ...prevStores];
-//             return updatedStores.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-//         });
-//     };
-
-//     eventSource.onerror = () => {
-//         toast.info("EventSource failed during load the data");
-//         eventSource.close();
-//     };
-
-//     // Cleanup on component unmount
-//     return () => {
-//         eventSource.close();
-//     };
-// }, []);
 
 
 
