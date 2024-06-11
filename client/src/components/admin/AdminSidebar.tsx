@@ -1,6 +1,6 @@
 import { AiFillDatabase } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
-import { FaGlobe, FaListUl } from "react-icons/fa6";
+import { FaGlobe } from "react-icons/fa6";
 import { IoMdAdd } from "react-icons/io";
 import { MdEdit, MdOutlineDeleteOutline } from "react-icons/md";
 import { RiLogoutCircleRLine } from "react-icons/ri";
