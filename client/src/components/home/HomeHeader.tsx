@@ -94,24 +94,31 @@ const HomeHeader = () => {
   useEffect(() => {
     const eventSource = new EventSource('https://search-service.onrender.com/store/stream-stores');
 
-    eventSource.onmessage = (event) => {
-        const newStores: Store[] = JSON.parse(event.data);
-        setStores((prevStores) => {
-            const updatedStores = [...newStores, ...prevStores];
-            return updatedStores.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-        });
+    eventSource.onopen = () => {
+      console.log('Connection to server opened.');
     };
 
-    eventSource.onerror = () => {
-        toast.info("EventSource failed during load the data");
-        eventSource.close();
+    eventSource.onmessage = (event) => {
+      const newStores: Store[] = JSON.parse(event.data);
+      setStores((prevStores) => {
+        const updatedStores = [...newStores, ...prevStores];
+        return updatedStores.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      });
+    };
+
+    eventSource.onerror = (error) => {
+      console.error('EventSource failed:', error);
+      toast.info("EventSource failed during load the data");
+      eventSource.close();
     };
 
     // Cleanup on component unmount
     return () => {
-        eventSource.close();
+      console.log('Closing EventSource connection.');
+      eventSource.close();
     };
-}, []);
+  }, []);
+
 
 
 

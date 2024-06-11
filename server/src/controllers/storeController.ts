@@ -114,7 +114,7 @@ export const getStramData = async (req: Request, res: Response): Promise<void> =
 
         // Send initial data in chunks
         const initialStores = await storeService.stremStoreService();
-        sendData(initialStores); 
+        sendData(initialStores);
 
         // Set up change stream for new data
         const changeStream = mongoose.connection.collection('stores').watch();
@@ -127,9 +127,12 @@ export const getStramData = async (req: Request, res: Response): Promise<void> =
         });
 
         req.on('close', () => {
+            console.log('Client connection closed.');
             changeStream.close();
             res.end();
         });
+
+        console.log('Stream connection established.');
     } catch (error: any) {
         sendResponse(res, 400, error.message);
     }
