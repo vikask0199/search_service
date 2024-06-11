@@ -117,7 +117,7 @@ const HomeHeader = () => {
       console.log('Closing EventSource connection.');
       eventSource.close();
     };
-  }, [1000]);
+  }, []);
 
 
 
