@@ -71,7 +71,7 @@ const AdminSidebar = () => {
                 <div className="flex flex-col gap-4 items-center">
                     <button onClick={() => clearDatabase()} className={`flex w-full items-center gap-2 py-2 px-2 shadow-md text-red-600 hover:bg-gray-100 duration-300 ${Number(id) === 5 ? 'bg-gray-200' : ''}`}><AiFillDatabase /><span className="hidden md:block">Clear Database</span></button>
                     <button onClick={() => handleOpenProfile()} className={`flex w-full items-center gap-2 py-2 px-2 shadow-md text-blue-600 hover:bg-gray-100 duration-300 ${Number(id) === 6 ? 'bg-gray-200' : ''}`}><CgProfile /><span className="hidden md:block">Profile</span></button>
-                    <button onClick={() => navigate("/")} className="flex w-full items-center gap-2 py-2 px-2 shadow-md text-gray-600 hover:bg-gray-100 duration-300"><RiLogoutCircleRLine /><span className="hidden md:block">Logout</span></button>
+                    <button onClick={() => { localStorage.removeItem("token"), navigate("/") }} className="flex w-full items-center gap-2 py-2 px-2 shadow-md text-gray-600 hover:bg-gray-100 duration-300"><RiLogoutCircleRLine /><span className="hidden md:block">Logout</span></button>
                 </div>
             </div>
 
