@@ -185,7 +185,11 @@ const HomeHeader = () => {
               </div>
             ))
           ) : (
-            <div>No records present please add valid city!</div>
+            <div>
+              {
+                stores.length > 0 ? ("") : ("No records present please add valid city!")
+              }
+            </div>
           )
         }
         {stores.length > 0 && page < totalPages && (
