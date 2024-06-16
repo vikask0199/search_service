@@ -38,7 +38,6 @@ if (!fs.existsSync(imagesDir)) {
   console.log(`Images directory exists at ${imagesDir}`);
 }
 app.use('/images', express.static(imagesDir));
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, imagesDir);
@@ -65,6 +64,7 @@ const upload = multer({
   }
 });
 
+// Upload image route
 app.post("/upload-image", upload.single("image"), async (req: Request, res: Response) => {
   if (!req.file) {
     return res.status(400).json({ status: "error", message: "No file uploaded or invalid file format" });
@@ -84,6 +84,7 @@ app.post("/upload-image", upload.single("image"), async (req: Request, res: Resp
     sendResponse(res, 400, error.message);
   }
 });
+
 
 app.get("/get-image", async (req: Request, res: Response) => {
   res.send("hello working");
