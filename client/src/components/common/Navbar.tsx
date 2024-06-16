@@ -7,11 +7,11 @@ const Navbar = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false)
 
     return (
-        <div className="w-full md:px-20 sticky top-0 left-0 z-[99999] shadow-lg h-16 flex items-center bg-white">
+        <div className="w-full md:px-20 sticky top-0 left-0 z-50 shadow-lg h-16 flex items-center bg-white">
             <div className="flex items-center justify-between h-full w-full">
                 <div className="h-full md:w-auto w-full justify-between flex z-50 shadow-lg md:shadow-none px-4 md:px-0 text-blue-700">
                     <Link to="/" className="h-full items-center justify-center flex font-extrabold text-3xl">
-                        YOUR LOGO
+                        SEARCH-SERVICE
                     </Link>
                     <div className="h-full items-center justify-center flex font-extrabold text-3xl md:hidden">
                         {

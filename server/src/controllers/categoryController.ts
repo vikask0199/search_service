@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import { ICategory, ICategoryParams } from "../interfaces/CategoryInterface";
 import { categoryService } from "../services/categoryService";
 import { sendResponse } from "../utils/sendResponse";
+import Category from "../models/Category";
 
 
 
@@ -78,3 +79,16 @@ export const updateCategory = async (req: Request<{categoryId: string}, {}, { na
     }
 }
 
+
+
+
+
+export const totalCategoryCount = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const totalRecords = await Category.countDocuments();
+        res.status(200).json({ status: "success", STATUS_CODES: 200, data: totalRecords });
+    } catch (error: any) {
+        console.log(error);
+        res.status(400).json({ status: "error", message: error.message });
+    }
+};

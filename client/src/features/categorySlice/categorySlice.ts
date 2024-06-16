@@ -18,9 +18,17 @@ const categorySlice = apiSlice.injectEndpoints({
                 url: '/category/get-all-category',
                 method: 'GET'
             })
+        }),
+
+
+        getCount: builder.query({
+            query: () => ({
+                url: '/category/getAllCategoryCount',
+                method: 'GET'
+            })
         })
     }),
 })
 
 
-export const { useCreateCategoryMutation, useGetAllCategoryQuery } = categorySlice
+export const { useCreateCategoryMutation, useGetAllCategoryQuery, useGetCountQuery } = categorySlice

@@ -8,6 +8,7 @@ import { IoCall } from 'react-icons/io5';
 import { SiGmail } from 'react-icons/si';
 import { IoLogoWhatsapp } from 'react-icons/io';
 import { toast } from 'react-toastify';
+import CircularProgress from '@mui/material/CircularProgress';
 
 // Define the Store type
 interface Store {
@@ -30,7 +31,8 @@ const HomeHeader = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [getStoresByCityAndCategory] = useLazyGetStoreByCityAndCategoryQuery();
-  const [isLoadingStore, setIsLoadingStore] = useState(false)
+  const [isSearching, setIsSearching] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   const handleCategoryChange = (e: any) => {
     setSelectedCategory(e.target.value);
@@ -42,19 +44,26 @@ const HomeHeader = () => {
   };
 
   const handleGetSearchResult = async () => {
-    setIsLoadingStore(true)
-    if (!selectedCategory || !city) return;
-    setPage(1);
-    try {
-      const result = await getStoresByCityAndCategory({ category: selectedCategory, city, page: 1 }).unwrap();
-      setStores(result.data.stores || []);
-      setTotalPages(result.data.totalPages || 1);
-    } catch (error) {
-      setStores([]);
-      setTotalPages(1);
-      setIsLoadingStore(false)
+    setIsSearching(true)
+    setIsLoading(true)
+    if (selectedCategory && city) {
+      setPage(1);
+      try {
+        const result = await getStoresByCityAndCategory({ category: selectedCategory, city, page: 1 }).unwrap();
+        setStores(result.data.stores || []);
+        setTotalPages(result.data.totalPages || 1);
+      } catch (error) {
+        setStores([]);
+        setTotalPages(1);
+        setIsSearching(false)
+        setIsLoading(false)
+      }
+    } else {
+      setIsSearching(false)
+      toast.info("Please select category and city")
     }
-    setIsLoadingStore(false)
+    setIsSearching(false)
+    setIsLoading(false)
   };
 
   const handleLoadMore = async () => {
@@ -90,34 +99,49 @@ const HomeHeader = () => {
     window.open(locationUrl, "_blank");
   };
 
-
   useEffect(() => {
     const eventSource = new EventSource('https://search-service.onrender.com/store/stream-stores');
+    let noRecordTimeout: ReturnType<typeof setTimeout>;
+
+    const startNoRecordTimeout = () => {
+      noRecordTimeout = setTimeout(() => {
+        console.log('No records found within 30 seconds. Closing connection.');
+        eventSource.close();
+        setIsLoading(false)
+      }, 30000);
+    };
+
+    startNoRecordTimeout();
 
     eventSource.onopen = () => {
       console.log('Connection to server opened.');
     };
 
     eventSource.onmessage = (event) => {
+      clearTimeout(noRecordTimeout);
       const newStores: Store[] = JSON.parse(event.data);
       setStores((prevStores) => {
         const updatedStores = [...newStores, ...prevStores];
         return updatedStores.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       });
+      // Restart the timeout after receiving new records
+      startNoRecordTimeout();
     };
 
     eventSource.onerror = (error) => {
       console.error('EventSource failed:', error);
-      toast.info("EventSource failed during load the data");
+      toast.info('EventSource failed during load the data');
       eventSource.close();
     };
 
     // Cleanup on component unmount
     return () => {
       console.log('Closing EventSource connection.');
+      clearTimeout(noRecordTimeout);
       eventSource.close();
     };
   }, []);
+
 
 
 
@@ -147,10 +171,14 @@ const HomeHeader = () => {
           </select>
           <button
             onClick={handleGetSearchResult}
-            className="flex-grow px-10 h-10 bg-cyan-500 cursor-pointer text-white hover:bg-white hover:text-cyan-500 duration-300 border border-cyan-500"
+            className="flex-grow w-32 h-10 bg-cyan-500 cursor-pointer text-white hover:bg-white hover:text-cyan-500 duration-300 border border-cyan-500"
           >
             {
-              isLoadingStore ? "Searching . . ." : "Search"
+              isSearching ? (
+                <div className=''>
+                  <CircularProgress size={30}/>
+                </div>
+              ) : "Search"
             }
           </button>
         </div>
@@ -172,8 +200,8 @@ const HomeHeader = () => {
                         <StarRating ratings={store.rating} />
                       </div>
                       <ReadCompleteAddress text={store.completeAddress} maxChar={100} />
-                      <p className="pt-2">Contact:- {store.phone}</p>
-                      <p>Email:- {store.email}</p>
+                      <p className="pt-2"><span className="font-bold">Contact:-</span> {store.phone}</p>
+                      <p><span className="font-bold">Email:-</span> {store.email}</p>
                     </div>
                   </div>
                   <div className="flex justify-between gap-2 flex-wrap">
@@ -188,7 +216,7 @@ const HomeHeader = () => {
           ) : (
             <div>
               {
-                stores.length > 0 ? ("") : ("No records present please add valid city!")
+                isLoading ? (<CircularProgress />) : ("No stores found")
               }
             </div>
           )

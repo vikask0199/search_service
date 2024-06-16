@@ -206,7 +206,7 @@ const UpdateDetails = () => {
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
                                 Whatsapp
                             </label>
-                            <input name="whatsApp" value={formData.whatsApp} onChange={handleChange} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Enter your whatsapp number" />
+                            <input name="whatsApp" value={formData.whatsApp} onChange={handleChange} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="+91 XXXXXXXXXX" />
                             <p className="text-red-500 text-xs italic">Please fill out this field.</p>
                         </div>
                     </div>

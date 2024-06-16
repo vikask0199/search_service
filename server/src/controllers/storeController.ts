@@ -4,6 +4,7 @@ import { IStore } from "../interfaces/StoreInterfaces";
 import { categoryService } from "../services/categoryService";
 import { storeService } from "../services/storeService";
 import { sendResponse } from "../utils/sendResponse";
+import Store from "../models/Store";
 
 
 export const createStore = async (
@@ -133,6 +134,16 @@ export const getStramData = async (req: Request, res: Response): Promise<void> =
         });
 
         console.log('Stream connection established.');
+    } catch (error: any) {
+        sendResponse(res, 400, error.message);
+    }
+}
+
+
+export const totalStoreCount = async (req:Request, res: Response): Promise<void> => {
+    try {
+        const totalRecords = await Store.countDocuments();
+        res.status(200).json({ status: "success", STATUS_CODES: 200, data: totalRecords })
     } catch (error: any) {
         sendResponse(res, 400, error.message);
     }

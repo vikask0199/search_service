@@ -78,12 +78,14 @@
 
 
 import express from 'express';
-import {  uploadImage } from '../middlewares/uploadImage';
+// import {  uploadImage } from '../middlewares/uploadImage';
 import { checkAuthorizeOrNot } from '../middlewares/checkAuthorizeOrNot';
+import { upload, uploadImage } from '../controllers/uploadController';
 
 const router = express.Router();
 
-router.post('/upload-image', checkAuthorizeOrNot, uploadImage);
+// router.post('/upload-image', checkAuthorizeOrNot, uploadImage);
+router.post('/upload-image', upload.single("image"), uploadImage);
 
 
 export default router

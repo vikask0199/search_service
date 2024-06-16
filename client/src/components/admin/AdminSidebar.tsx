@@ -52,10 +52,10 @@ const AdminSidebar = () => {
         <div className="h-screen flex flex-col">
             <div className="h-16 shadow-md">
                 <Link to="/" className="h-full hidden items-center justify-center md:flex font-extrabold text-3xl text-blue-600 ">
-                    YOUR LOGO
+                SEARCH-SERVICE
                 </Link>
                 <Link to="/" className="h-full md:hidden items-center justify-center flex font-extrabold text-3xl text-blue-600 ">
-                    YL
+                    SS
                 </Link>
             </div>
 

@@ -45,7 +45,14 @@ const storeSlice = apiSlice.injectEndpoints({
             })
         }),
 
+        getAllStoresCount: builder.query({
+            query: () => ({
+                url: `/store/getAllStoreCount`,
+                method: 'GET',
+            })
+        })
+
     })
 })
 
-export const { useUploadImageMutation, useCreateStoreMutation, useLazyGetStoreByCityAndCategoryQuery, useLazyDeleteStoreByEmailQuery, useLazyGetStoreByEmailQuery } = storeSlice;
+export const { useUploadImageMutation, useCreateStoreMutation, useLazyGetStoreByCityAndCategoryQuery, useLazyDeleteStoreByEmailQuery, useLazyGetStoreByEmailQuery, useGetAllStoresCountQuery } = storeSlice;

@@ -65,5 +65,5 @@ const storeSchema = new mongoose.Schema<IStore>(
     }
 )
 
-const Store = mongoose.model<IStore>('Store', storeSchema)
+const Store = mongoose.model<IStore>('stores', storeSchema)
 export default Store
