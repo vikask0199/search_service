@@ -172,7 +172,8 @@ const HomeHeader = () => {
                         <StarRating ratings={store.rating} />
                       </div>
                       <ReadCompleteAddress text={store.completeAddress} maxChar={100} />
-                      <p className="pt-2">{store.phone}</p>
+                      <p className="pt-2">Contact:- {store.phone}</p>
+                      <p>Email:- {store.email}</p>
                     </div>
                   </div>
                   <div className="flex justify-between gap-2 flex-wrap">
