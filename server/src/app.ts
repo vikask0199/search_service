@@ -30,27 +30,28 @@ app.use(express.json({ limit: "10mb" }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Set up static file serving and ensure the images directory exists
 const imagesDir = path.join(__dirname, "../src/images");
 if (!fs.existsSync(imagesDir)) {
   fs.mkdirSync(imagesDir, { recursive: true });
+  console.log(`Created images directory at ${imagesDir}`);
+} else {
+  console.log(`Images directory exists at ${imagesDir}`);
 }
-app.use('/images', express.static(imagesDir)); // Serve images statically
+app.use('/images', express.static(imagesDir));
 
-// Multer configuration
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, imagesDir);  // Ensure the path is correct
+    cb(null, imagesDir);
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now();
-    cb(null, uniqueSuffix + file.originalname);
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, uniqueSuffix + path.extname(file.originalname).toLowerCase());
   },
 });
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // Limit file size to 10 MB
+  limits: { fileSize: 10 * 1024 * 1024 },
   fileFilter: function (req, file, cb) {
     const filetypes = /jpeg|jpg|png/;
     const mimetype = filetypes.test(file.mimetype);
@@ -64,7 +65,6 @@ const upload = multer({
   }
 });
 
-// Routes
 app.post("/upload-image", upload.single("image"), async (req: Request, res: Response) => {
   if (!req.file) {
     return res.status(400).json({ status: "error", message: "No file uploaded or invalid file format" });
@@ -74,6 +74,8 @@ app.post("/upload-image", upload.single("image"), async (req: Request, res: Resp
   const host = req.get('host');
   const protocol = req.protocol;
   const imageUrl = `${protocol}://${host}/images/${imageName}`;
+  console.log(`Image uploaded: ${imageUrl}`);
+  console.log(`Saved at: ${req.file.path}`);
 
   try {
     await ImageDetails.create({ image: imageUrl });

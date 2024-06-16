@@ -1,9 +1,8 @@
-import multer from "multer";
-import path from "path";
-import fs from "fs";
 import { Request, Response } from "express";
-import ImageDetails from "../models/ImageDetails";
+import fs from "fs";
+import path from "path";
 import upload from "../app";
+import ImageDetails from "../models/ImageDetails";
 
 
 
