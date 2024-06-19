@@ -20,9 +20,9 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "http://192.168.29.74:5173",
       "https://search-service-ruby.vercel.app",
-      "*"
+      "*",
+      "http://192.168.255.119:5173/"
     ],
     methods: ["GET", "PATCH", "POST", "DELETE", "PUT"],
     credentials: true,

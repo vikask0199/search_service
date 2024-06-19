@@ -57,7 +57,7 @@ export const storeService = {
         return storeRepository.deleteStoreByEmailId(email)
     },
 
-    stremStoreService: async(): Promise<IStore[]> => {
-        return storeRepository.getStreamData()
+    streamStoreService: async (): Promise<IStore[]> => {
+        return storeRepository.getStreamData();
     }
 }

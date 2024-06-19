@@ -101,31 +101,18 @@ const HomeHeader = () => {
 
   useEffect(() => {
     const eventSource = new EventSource('https://search-service.onrender.com/store/stream-stores');
-    let noRecordTimeout: ReturnType<typeof setTimeout>;
-
-    const startNoRecordTimeout = () => {
-      noRecordTimeout = setTimeout(() => {
-        console.log('No records found within 30 seconds. Closing connection.');
-        eventSource.close();
-        setIsLoading(false)
-      }, 30000);
-    };
-
-    startNoRecordTimeout();
 
     eventSource.onopen = () => {
       console.log('Connection to server opened.');
     };
 
     eventSource.onmessage = (event) => {
-      clearTimeout(noRecordTimeout);
       const newStores: Store[] = JSON.parse(event.data);
       setStores((prevStores) => {
         const updatedStores = [...newStores, ...prevStores];
         return updatedStores.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       });
-      // Restart the timeout after receiving new records
-      startNoRecordTimeout();
+      setIsLoading(false);
     };
 
     eventSource.onerror = (error) => {
@@ -137,14 +124,9 @@ const HomeHeader = () => {
     // Cleanup on component unmount
     return () => {
       console.log('Closing EventSource connection.');
-      clearTimeout(noRecordTimeout);
       eventSource.close();
     };
   }, []);
-
-
-
-
 
   return (
     <div className="flex items-center justify-center flex-col ">

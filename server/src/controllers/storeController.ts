@@ -103,27 +103,29 @@ export const deleteStoreByEmailId = async (
 }
 
 
-export const getStramData = async (req: Request, res: Response): Promise<void> => {
+export const getStreamData = async (req: Request, res: Response): Promise<void> => {
     try {
         res.setHeader('Content-Type', 'text/event-stream');
         res.setHeader('Cache-Control', 'no-cache');
         res.setHeader('Connection', 'keep-alive');
 
-        const sendData = (data: any) => {
+        const sendData = (data: IStore) => {
             res.write(`data: ${JSON.stringify(data)}\n\n`);
         };
 
-        // Send initial data in chunks
-        const initialStores = await storeService.stremStoreService();
-        sendData(initialStores);
+        // Send initial data one by one
+        const initialStores = await storeService.streamStoreService();
+        for (const store of initialStores) {
+            sendData(store);
+        }
 
         // Set up change stream for new data
         const changeStream = mongoose.connection.collection('stores').watch();
 
-        changeStream.on('change', async (change) => {
+        changeStream.on('change', (change) => {
             if (change.operationType === 'insert') {
-                const newStore = change.fullDocument;
-                sendData([newStore]);
+                const newStore = change.fullDocument as IStore;
+                sendData(newStore);
             }
         });
 
@@ -135,12 +137,11 @@ export const getStramData = async (req: Request, res: Response): Promise<void> =
 
         console.log('Stream connection established.');
     } catch (error: any) {
-        sendResponse(res, 400, error.message);
+        res.status(400).json({ error: error.message });
     }
 }
 
-
-export const totalStoreCount = async (req:Request, res: Response): Promise<void> => {
+export const totalStoreCount = async (req: Request, res: Response): Promise<void> => {
     try {
         const totalRecords = await Store.countDocuments();
         res.status(200).json({ status: "success", STATUS_CODES: 200, data: totalRecords })

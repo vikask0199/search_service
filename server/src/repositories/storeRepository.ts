@@ -54,6 +54,6 @@ export const storeRepository = {
     },
 
     getStreamData: async (): Promise<IStore[]> => {
-        return Store.find().sort({createdAt: -1}).exec()
+        return Store.find().sort({ createdAt: -1 }).exec();
     }
 }
