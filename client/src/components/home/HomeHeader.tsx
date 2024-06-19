@@ -107,12 +107,25 @@ const HomeHeader = () => {
     };
 
     eventSource.onmessage = (event) => {
-      const newStores: Store[] = JSON.parse(event.data);
-      setStores((prevStores) => {
-        const updatedStores = [...newStores, ...prevStores];
-        return updatedStores.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-      });
-      setIsLoading(false);
+      try {
+        const parsedData = JSON.parse(event.data);
+        if (Array.isArray(parsedData)) {
+          setStores((prevStores) => {
+            const updatedStores = [...parsedData, ...prevStores];
+            return updatedStores.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+          });
+        } else if (typeof parsedData === 'object' && parsedData !== null) {
+          setStores((prevStores) => {
+            const updatedStores = [parsedData, ...prevStores];
+            return updatedStores.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+          });
+        } else {
+          console.error('Received data is neither an array nor an object:', parsedData);
+        }
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error parsing event data:', error);
+      }
     };
 
     eventSource.onerror = (error) => {
