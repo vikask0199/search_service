@@ -16,6 +16,7 @@ const storeSlice = apiSlice.injectEndpoints({
                 }
             }
         }),
+
         uploadImage: builder.mutation({
             query: (formData) => ({
                 url: '/file/upload-image',
@@ -50,9 +51,17 @@ const storeSlice = apiSlice.injectEndpoints({
                 url: `/store/getAllStoreCount`,
                 method: 'GET',
             })
+        }),
+
+        updateStoreData: builder.mutation({
+            query: ({ email, dataToUpdate }) => ({
+                url: `/store/stores/${email}`,
+                method: 'PATCH',
+                body: dataToUpdate,
+            })
         })
 
     })
 })
 
-export const { useUploadImageMutation, useCreateStoreMutation, useLazyGetStoreByCityAndCategoryQuery, useLazyDeleteStoreByEmailQuery, useLazyGetStoreByEmailQuery, useGetAllStoresCountQuery } = storeSlice;
+export const { useUploadImageMutation, useUpdateStoreDataMutation, useCreateStoreMutation, useLazyGetStoreByCityAndCategoryQuery, useLazyDeleteStoreByEmailQuery, useLazyGetStoreByEmailQuery, useGetAllStoresCountQuery } = storeSlice;
