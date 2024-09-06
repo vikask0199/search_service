@@ -184,11 +184,11 @@ const HomeHeader = () => {
             stores.map((store, index) => (
               <div key={index} className="flex items-center py-10 flex-col gap-5 w-full">
                 <div className="p-6 shadow-md flex flex-col gap-5 bg-white w-[95%]">
-                  <div className="flex gap-2 border w-full">
+                  <div className="flex gap-2 md:border w-full md:flex-row flex-col">
                     <div className="md:w-[350px] md:h-[200px]">
                       <img className="w-full h-full" src={store.logo} alt="" />
                     </div>
-                    <div className="md:w-[99%]">
+                    <div className="md:w-[99%] p-2">
                       <p className="font-bold md:text-2xl uppercase">{store.name}</p>
                       <div>
                         <p className="font-bold">User Review</p>
@@ -200,10 +200,10 @@ const HomeHeader = () => {
                     </div>
                   </div>
                   <div className="flex justify-between gap-2 flex-wrap">
-                    <button className="py-1 rounded-sm cursor-pointer w-36 flex items-center justify-center bg-blue-700 text-white hover:text-blue-700 hover:bg-white duration-300 border border-blue-700" onClick={() => handleOpenDirection(store.locationUrl)}><span className="flex items-center gap-1  "><MdSubdirectoryArrowRight className="text-xl" /> Direction</span></button>
-                    <button className="py-1 rounded-sm cursor-pointer w-36 flex items-center justify-center bg-red-700 text-white hover:text-red-700 hover:bg-white duration-300 border border-red-700" onClick={() => handleMakeCall(store.phone)}><span className="flex items-center gap-1  "><IoCall className="text-xl" /> Call Now</span></button>
-                    <button className="py-1 rounded-sm cursor-pointer w-36 flex items-center justify-center bg-violet-700 text-white hover:text-violet-700 hover:bg-white duration-300 border border-violet-700" onClick={() => handleSendEmail(store.email)}><span className="flex items-center gap-1  "><SiGmail className="text-xl" /> Send Enquiry</span></button>
-                    <button className="py-1 rounded-sm cursor-pointer w-36 flex items-center justify-center bg-green-700 text-white hover:text-green-700 hover:bg-white duration-300 border border-green-700" onClick={() => handleOpenWhatsApp(store.whatsApp)}><span className="flex items-center gap-1  "><IoLogoWhatsapp className="text-xl" /> Chat</span></button>
+                    <button className="py-1 rounded-sm cursor-pointer w-32 flex items-center justify-center bg-blue-700 text-white hover:text-blue-700 hover:bg-white duration-300 border border-blue-700" onClick={() => handleOpenDirection(store.locationUrl)}><span className="flex items-center gap-1  "><MdSubdirectoryArrowRight className="text-xl" /> Direction</span></button>
+                    <button className="py-1 rounded-sm cursor-pointer w-32 flex items-center justify-center bg-red-700 text-white hover:text-red-700 hover:bg-white duration-300 border border-red-700" onClick={() => handleMakeCall(store.phone)}><span className="flex items-center gap-1  "><IoCall className="text-xl" /> Call Now</span></button>
+                    <button className="py-1 rounded-sm cursor-pointer w-32 flex items-center justify-center bg-violet-700 text-white hover:text-violet-700 hover:bg-white duration-300 border border-violet-700" onClick={() => handleSendEmail(store.email)}><span className="flex items-center gap-1  "><SiGmail className="text-xl" /> Send Enquiry</span></button>
+                    <button className="py-1 rounded-sm cursor-pointer w-32 flex items-center justify-center bg-green-700 text-white hover:text-green-700 hover:bg-white duration-300 border border-green-700" onClick={() => handleOpenWhatsApp(store.whatsApp)}><span className="flex items-center gap-1  "><IoLogoWhatsapp className="text-xl" /> Chat</span></button>
                   </div>
                 </div>
               </div>

@@ -11,7 +11,7 @@ const Navbar = () => {
             <div className="flex items-center justify-between h-full w-full">
                 <div className="h-full md:w-auto w-full justify-between flex z-50 shadow-lg md:shadow-none px-4 md:px-0 text-blue-700">
                     <Link to="/" className="h-full items-center justify-center flex font-extrabold text-3xl">
-                        SEARCH-SERVICE
+                        movenow.in
                     </Link>
                     <div className="h-full items-center justify-center flex font-extrabold text-3xl md:hidden">
                         {
