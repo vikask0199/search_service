@@ -188,7 +188,7 @@ const HomeHeader = () => {
                     <div className="md:w-[350px] md:h-[200px]">
                       <img className="w-full h-full" src={store.logo} alt="" />
                     </div>
-                    <div className="md:w-[99%] p-2">
+                    <div className="md:w-[99%] md:p-0 p-2">
                       <p className="font-bold md:text-2xl uppercase">{store.name}</p>
                       <div>
                         <p className="font-bold">User Review</p>
